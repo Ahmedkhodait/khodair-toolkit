@@ -1,0 +1,6 @@
+node_modules/
+*.log
+.env
+server.backup.js
+server.before-v*.js
+.DS_Store
