@@ -15,9 +15,13 @@ app.get("/", (req, res) => {
 <style>
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Arial, sans-serif; background: #07111f; color: #eef4f8; }
-header { padding: 22px 30px; background: #0b1d31; border-bottom: 2px solid #b99a45; }
-.logo { color: #d6b85a; font-size: 24px; font-weight: bold; }
-.subtitle { margin-top: 7px; color: #9fb3c8; font-size: 14px; }
+header { padding: 18px 30px; background: #0b1d31; border-bottom: 2px solid #b99a45; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+.header-left { display: flex; align-items: center; gap: 15px; }
+.logo-icon { width: 50px; height: 50px; }
+.logo-text { color: #d6b85a; font-size: 22px; font-weight: bold; }
+.subtitle { margin-top: 5px; color: #9fb3c8; font-size: 13px; }
+.header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.header-actions button { margin: 0; padding: 8px 14px; font-size: 13px; }
 .layout { display: flex; min-height: calc(100vh - 90px); }
 aside { width: 290px; background: #091827; padding: 20px 15px; border-right: 1px solid #1d3a52; }
 .stage { padding: 13px 15px; margin-bottom: 7px; border-left: 3px solid #29445b; color: #9fb3c8; border-radius: 3px; cursor: pointer; transition: 0.2s; font-size: 14px; }
@@ -36,6 +40,7 @@ button { margin-top: 16px; margin-right: 8px; padding: 12px 22px; background: #b
 button:hover { opacity: 0.9; }
 .secondary { background: #29445b; color: white; }
 .accent-btn { background: #6bb85a; color: #07111f; }
+.danger-btn { background: #a03b3b; color: white; }
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
 .three { grid-template-columns: repeat(3, 1fr); }
 .box { background: #071522; border: 1px solid #29445b; border-radius: 7px; padding: 17px; margin-top: 15px; }
@@ -44,57 +49,6 @@ button:hover { opacity: 0.9; }
 .gate { margin-top: 25px; padding: 18px; border-left: 4px solid #d6b85a; background: #10283d; }
 .gate strong { color: #d6b85a; }
 .hidden { display: none; }
-.login-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, #07111f 0%, #0b1d31 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-.login-box {
-  background: #0d2236;
-  border: 2px solid #d6b85a;
-  border-radius: 12px;
-  padding: 40px;
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-.login-box h1 {
-  color: #d6b85a;
-  font-size: 20px;
-  margin: 0 0 10px 0;
-  line-height: 1.4;
-}
-.login-box p {
-  color: #9fb3c8;
-  font-size: 13px;
-  margin-bottom: 25px;
-}
-.login-box input {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-}
-.login-box button {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  margin: 0;
-}
-.login-error {
-  color: #ff6b6b;
-  font-size: 13px;
-  margin-top: 10px;
-  display: none;
-}
-.login-error.show { display: block; }
 .tool-note { color: #9fb3c8; font-size: 13px; }
 label { display: block; margin-top: 10px; color: #c9d8e5; font-size: 14px; }
 label.instr { display: flex; align-items: center; padding: 8px 10px; background: #0d2236; border: 1px solid #29445b; border-radius: 6px; cursor: pointer; margin: 0; font-size: 14px; }
@@ -112,21 +66,61 @@ th, td { text-align: right; }
 .summary-row:last-child { border-bottom: none; }
 .summary-label { color: #9fb3c8; }
 .summary-value { color: #d6b85a; font-weight: bold; }
+
+/* ============ Login ============ */
+.login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #07111f 0%, #0b1d31 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+.login-box { background: #0d2236; border: 2px solid #d6b85a; border-radius: 12px; padding: 40px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.login-box h1 { color: #d6b85a; font-size: 20px; margin: 0 0 10px 0; line-height: 1.4; }
+.login-box p { color: #9fb3c8; font-size: 13px; margin-bottom: 25px; }
+.login-box input { width: 100%; padding: 14px; font-size: 15px; text-align: center; letter-spacing: 2px; margin-bottom: 15px; }
+.login-box button { width: 100%; padding: 14px; font-size: 15px; margin: 0; }
+.login-error { color: #ff6b6b; font-size: 13px; margin-top: 10px; display: none; }
+.login-error.show { display: block; }
+
+/* ============ RTL ============ */
+body.rtl { direction: rtl; }
+body.rtl aside { border-right: none; border-left: 1px solid #1d3a52; }
+body.rtl .stage { border-left: none; border-right: 3px solid #29445b; }
+body.rtl .stage.active { border-right-color: #d6b85a; border-left: none; }
+body.rtl .box, body.rtl .rec-card, body.rtl .gate, body.rtl .warning, body.rtl .ok-msg { border-left: none; border-right: 4px solid #d6b85a; }
+body.rtl .summary-row { flex-direction: row-reverse; }
+body.rtl label.instr { direction: rtl; }
+body.rtl input, body.rtl textarea { direction: rtl; text-align: right; }
+body.rtl input[type="number"] { direction: ltr; text-align: center; }
+
+/* ============ Toggle RTL Button ============ */
+.rtl-toggle { position: fixed; bottom: 20px; left: 20px; background: #d6b85a; color: #07111f; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9998; padding: 0; margin: 0; }
+.rtl-toggle:hover { transform: scale(1.1); opacity: 1; }
+
+/* ============ Modal (About) ============ */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center; z-index: 10000; }
+.modal-overlay.show { display: flex; }
+.modal-box { background: #0d2236; border: 2px solid #d6b85a; border-radius: 12px; padding: 35px; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; text-align: center; }
+.modal-box h1 { color: #d6b85a; font-size: 22px; margin: 0 0 5px 0; }
+.modal-box .tagline { color: #9fb3c8; font-size: 13px; margin-bottom: 25px; font-style: italic; }
+.modal-box .about-section { background: #071522; border: 1px solid #29445b; border-radius: 8px; padding: 18px; margin-top: 15px; text-align: left; }
+body.rtl .modal-box .about-section { text-align: right; }
+.modal-box .about-section h3 { color: #d6b85a; margin-top: 0; font-size: 15px; }
+.modal-box .about-section p { color: #c9d8e5; font-size: 14px; line-height: 1.6; margin: 6px 0; }
+.modal-box .about-section strong { color: #d6b85a; }
+.modal-box .close-btn { margin-top: 20px; width: 100%; padding: 12px; }
+
+/* ============ Save/Load Status ============ */
+.save-status { position: fixed; bottom: 20px; right: 20px; background: #1a3a1a; color: #b3ffb3; border: 1px solid #6bff6b; padding: 10px 16px; border-radius: 6px; font-size: 13px; z-index: 9997; opacity: 0; transition: opacity 0.3s; }
+.save-status.show { opacity: 1; }
+body.rtl .save-status { right: auto; left: 80px; }
+
 @media(max-width: 850px) {
   .layout { flex-direction: column; }
   aside { width: 100%; display: flex; overflow-x: auto; }
   .stage { min-width: 200px; }
   main { padding: 15px; }
   .grid, .three { grid-template-columns: 1fr; }
+  .header-left { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
-<body>
-
-<header>
-  <div class="logo">KHODAIR GOVERNMENT POLICY TOOLKIT</div>
-  <div class="subtitle">AI-assisted design, personalization & adaptation for public policy</div>
-</header>
+<body><!-- Login Overlay -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
     <h1>KHODAIR GOVERNMENT POLICY TOOLKIT</h1>
@@ -136,6 +130,70 @@ th, td { text-align: right; }
     <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
   </div>
 </div>
+
+<!-- About Modal -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal-box">
+    <h1>KHODAIR GOVERNMENT POLICY TOOLKIT</h1>
+    <p class="tagline">AI-assisted design, personalization & adaptation for public policy</p>
+
+    <div class="about-section">
+      <h3>About the Toolkit</h3>
+      <p>An interactive 9-stage toolkit that guides policy analysts, government officials, and postgraduate students through a disciplined policy design process — from problem definition to implementation.</p>
+    </div>
+
+    <div class="about-section">
+      <h3>Methodology</h3>
+      <p>The toolkit integrates:</p>
+      <p>• <strong>Structured Diagnosis</strong> — 5W1H, Problem Tree, Five Whys, Fishbone, Iceberg Model</p>
+      <p>• <strong>Evidence-Based Analysis</strong> — Source evaluation and knowledge gap identification</p>
+      <p>• <strong>Multi-Criteria Decision Matrix</strong> — Weighted scoring across effectiveness, efficiency, equity, feasibility, political acceptability, and cost</p>
+      <p>• <strong>William Dunn's Argument Model</strong> — Claim, Information, Warrant, Backing, Qualifier, Rebuttal</p>
+      <p>• <strong>Policy Instruments Framework</strong> — Strategy, legislation, campaigns, training, incentives, partnerships, and more</p>
+    </div>
+
+    <div class="about-section">
+      <h3>Developed By</h3>
+      <p><strong>Ahmed Khodair</strong></p>
+      <p>Policy & Government Consultancies</p>
+    </div>
+
+    <div class="about-section">
+      <h3>Version</h3>
+      <p><strong>v2.0</strong> — 2026</p>
+      <p style="font-size:12px; color:#9fb3c8; margin-top:10px;">For feedback and suggestions, please contact the developer.</p>
+    </div>
+
+    <button class="close-btn" onclick="closeAbout()">Close</button>
+  </div>
+</div>
+
+<!-- RTL Toggle -->
+<button class="rtl-toggle" id="rtlToggle" onclick="toggleRTL()" title="Toggle RTL / LTR">ع</button>
+
+<!-- Save Status -->
+<div class="save-status" id="saveStatus">✓ Saved</div>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#d6b85a" stroke-width="3"/>
+      <path d="M30 70 L30 30 L38 30 L38 45 L62 45 L62 30 L70 30 L70 70 L62 70 L62 53 L38 53 L38 70 Z" fill="#d6b85a"/>
+      <circle cx="50" cy="50" r="6" fill="#0b1d31" stroke="#d6b85a" stroke-width="2"/>
+    </svg>
+    <div>
+      <div class="logo-text">KHODAIR GOVERNMENT POLICY TOOLKIT</div>
+      <div class="subtitle">AI-assisted design, personalization & adaptation for public policy</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="secondary" onclick="openAbout()">ℹ️ About</button>
+    <button class="secondary" onclick="saveData(true)">💾 Save</button>
+    <button class="secondary" onclick="loadData(true)">📂 Load</button>
+    <button class="danger-btn" onclick="clearData()">🗑️ Clear</button>
+  </div>
+</header>
 
 <div class="layout">
 <aside>
@@ -152,7 +210,7 @@ th, td { text-align: right; }
 
 <main>
 
-<!-- ================= STAGE 1 ================= -->
+<!-- STAGE 1 -->
 <div class="card" id="stage1">
   <h2>01 - Policy Problem</h2>
   <p>The toolkit does not move directly from a problem to a solution. Establish a disciplined policy problem definition first.</p>
@@ -178,7 +236,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 2 ================= -->
+<!-- STAGE 2 -->
 <div class="card hidden" id="stage2">
   <h2>02 - Diagnosis</h2>
   <div class="box" style="border-left:4px solid #d6b85a;">
@@ -266,7 +324,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 3 ================= -->
+<!-- STAGE 3 -->
 <div class="card hidden" id="stage3">
   <h2>03 - Evidence</h2>
   <p>Collect and evaluate evidence to test the hypotheses developed during Diagnosis.</p>
@@ -307,7 +365,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 4 ================= -->
+<!-- STAGE 4 -->
 <div class="card hidden" id="stage4">
   <h2>04 - Policy Options</h2>
   <p>Develop at least three policy options before selecting one.</p>
@@ -346,7 +404,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 5 ================= -->
+<!-- STAGE 5 -->
 <div class="card hidden" id="stage5">
   <h2>05 - Testing</h2>
   <p>Test policy options against scenarios, criteria and uncertainty.</p>
@@ -384,7 +442,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 6 ================= -->
+<!-- STAGE 6 -->
 <div class="card hidden" id="stage6">
   <h2>06 - Personalization</h2>
   <p>Adapt the policy to specific target groups and contexts.</p>
@@ -417,7 +475,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 7 ================= -->
+<!-- STAGE 7 -->
 <div class="card hidden" id="stage7">
   <h2>07 - Recommendation (William Dunn Model)</h2>
   <p>The system will compute the final policy recommendation based on the Decision Matrix and generate a structured policy argument using William Dunn's model.</p>
@@ -516,7 +574,7 @@ th, td { text-align: right; }
   <button onclick="goTo(8)">Proceed to Policy Intervention -></button>
 </div>
 
-<!-- ================= STAGE 8 - Policy Intervention ================= -->
+<!-- STAGE 8 -->
 <div class="card hidden" id="stage8">
   <h2>08 - Policy Intervention</h2>
   <p>Design the policy intervention based on the approved recommendation. Select the policy instruments to be used, then let the system auto-suggest a full intervention grounded in the chosen option.</p>
@@ -539,7 +597,7 @@ th, td { text-align: right; }
 
   <div class="box" style="border-left: 4px solid #6bb85a;">
     <h3>🎛️ Intervention Instruments</h3>
-    <p class="tool-note">Select one or more policy instruments to be used in the intervention. The auto-suggest feature will build the intervention plan around your selections.</p>
+    <p class="tool-note">Select one or more policy instruments to be used in the intervention.</p>
 
     <div class="grid three" style="margin-top:15px;">
       <label class="instr"><input type="checkbox" id="instStrategy"> Strategy (استراتيجية)</label>
@@ -559,7 +617,7 @@ th, td { text-align: right; }
 
   <div class="box" style="border-left: 4px solid #6bb85a; background: #0d2a17;">
     <h3>Auto-Suggest Intervention</h3>
-    <p class="tool-note">The system will propose a full policy intervention based on the recommendation, selected instruments, target groups, and stakeholders. You can edit the results afterwards.</p>
+    <p class="tool-note">The system will propose a full policy intervention based on the recommendation, selected instruments, target groups, and stakeholders.</p>
     <button class="accent-btn" onclick="generateSuggestedIntervention()">✨ Auto-Suggest Policy Intervention</button>
   </div>
 
@@ -591,7 +649,7 @@ th, td { text-align: right; }
   </div>
 </div>
 
-<!-- ================= STAGE 9 - Implementation ================= -->
+<!-- STAGE 9 -->
 <div class="card hidden" id="stage9">
   <h2>09 - Implementation</h2>
   <p>Define concrete steps, responsibilities and monitoring framework.</p>
@@ -652,9 +710,7 @@ th, td { text-align: right; }
 </div>
 
 </main>
-</div>
-
-<script>
+</div><script>
 
 // ========== التنقل ==========
 function goTo(n) {
@@ -688,6 +744,7 @@ function goTo(n) {
   window.scrollTo(0, 0);
 }
 
+// ========== المرحلة 1 ==========
 function analyzeProblem() {
   const problem = document.getElementById("problem").value.trim();
   if (!problem) { alert("Please enter a policy problem first."); return; }
@@ -695,6 +752,7 @@ function analyzeProblem() {
   document.getElementById("problemResult").style.display = "block";
 }
 
+// ========== المرحلة 2 ==========
 function runDiagnosis() {
   const fields = ["what","who","where","when","why","how"];
   let completed = 0;
@@ -710,6 +768,7 @@ function runDiagnosis() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 3 ==========
 function runEvidence() {
   const data = document.getElementById("evData").value.trim();
   const reports = document.getElementById("evReports").value.trim();
@@ -718,6 +777,7 @@ function runEvidence() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 4 ==========
 function runOptions() {
   const a = document.getElementById("optA").value.trim();
   const b = document.getElementById("optB").value.trim();
@@ -726,6 +786,7 @@ function runOptions() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 5 ==========
 function runTesting() {
   const feas = document.getElementById("testFeasibility").value.trim();
   const impact = document.getElementById("testImpact").value.trim();
@@ -737,6 +798,7 @@ function runTesting() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 6 ==========
 function runPersonalization() {
   const groups = document.getElementById("targetGroups").value.trim();
   if (!groups) { alert("Please define target groups first."); return; }
@@ -744,6 +806,7 @@ function runPersonalization() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 7: تحذير الأوزان ==========
 function updateWeightSum() {
   const weights = ["wEffectiveness","wEfficiency","wEquity","wFeasibility","wPolitical","wCost"];
   let total = 0;
@@ -765,6 +828,7 @@ function updateWeightSum() {
   }
 }
 
+// ========== المرحلة 7: حساب المصفوفة ==========
 let lastMatrixResult = null;
 
 function calculateMatrix() {
@@ -812,9 +876,11 @@ function calculateMatrix() {
   }
 
   lastMatrixResult = { A: totalA, B: totalB, C: totalC, totalWeight: totalWeight };
+  autoSave();
   return lastMatrixResult;
 }
 
+// ========== المرحلة 7: توليد الحجة ==========
 function generatePolicyArgument() {
   const scores = lastMatrixResult || calculateMatrix();
 
@@ -897,7 +963,7 @@ function getSelectedInstruments() {
   return list;
 }
 
-// ========== المرحلة 8: توليد التدخل المقترح ==========
+// ========== المرحلة 8: توليد التدخل ==========
 function generateSuggestedIntervention() {
   if (!lastMatrixResult) {
     try { calculateMatrix(); } catch(e) {
@@ -933,11 +999,9 @@ function generateSuggestedIntervention() {
   const targetGroups = document.getElementById("targetGroups").value.trim() || "key target groups";
   const stakeholders = document.getElementById("stakeholders").value.trim() || "relevant stakeholders";
 
-  // جملة الأدوات
   const instrumentPhrases = instruments.map(function(i) { return i.phrase; }).join(", ");
   const instrumentLabels = instruments.map(function(i) { return i.label; }).join(", ");
 
-  // قوالب حسب نوع الخيار الفائز
   const templates = {
     A: {
       short: "Prepare the enabling conditions for the infrastructure-based intervention chosen to address: " + problem + ". This will be implemented through " + instrumentPhrases + ". Establish a steering committee, secure budget allocations, and complete the necessary feasibility studies before any physical work begins.",
@@ -946,13 +1010,13 @@ function generateSuggestedIntervention() {
     },
     B: {
       short: "Launch the preparatory phase for the demand-management and public-transport measures chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Begin with public awareness campaigns and improve the existing public transport capacity before introducing any restrictive measure, so that viable alternatives exist for " + targetGroups + ".",
-      mid: "Phase in demand-management measures (e.g. congestion pricing, remote-work incentives, parking policies) and expand mass transit. Provide targeted support to vulnerable groups during the transition. Coordinate closely with " + stakeholders + " and maintain ongoing communication with " + targetGroups + ".",
-      long: "Achieve a behavioural shift towards sustainable mobility. Integrate transit networks, evaluate the distributional impact across different population segments, and refine the intervention periodically, continuing to use " + instrumentPhrases + "."
+      mid: "Phase in demand-management measures and expand mass transit. Provide targeted support to vulnerable groups during the transition. Coordinate closely with " + stakeholders + " and maintain ongoing communication with " + targetGroups + ".",
+      long: "Achieve a behavioural shift towards sustainable mobility. Integrate transit networks, evaluate the distributional impact across different population segments, and refine the intervention periodically."
     },
     C: {
       short: "Deploy the first phase of the smart-systems intervention chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Start with a pilot on a selected corridor, launch a mobile application for route guidance and real-time updates, and establish a technical team and data governance framework.",
       mid: "Scale up deployment to main corridors. Train technical staff, integrate systems into a unified control centre, and collect operational data to optimize traffic flow. Coordinate with " + stakeholders + " and communicate progress to " + targetGroups + ".",
-      long: "Achieve full integration with public transport and urban management systems. Transition to a smart-city mobility architecture with continuous optimization and periodic technology upgrades. Continue using " + instrumentPhrases + " to sustain the intervention."
+      long: "Achieve full integration with public transport and urban management systems. Transition to a smart-city mobility architecture with continuous optimization and periodic technology upgrades."
     }
   };
 
@@ -962,18 +1026,15 @@ function generateSuggestedIntervention() {
   document.getElementById("stratMid").value = t.mid;
   document.getElementById("stratLong").value = t.long;
 
-  // أصحاب المصلحة
   const stakeholderText = "Engage " + stakeholders + " through structured consultation sessions, joint technical working groups, and transparent progress reporting. The selected instruments (" + instrumentLabels + ") will be deployed in coordination with these parties to build ownership and reduce resistance through early involvement and shared decision-making.";
   document.getElementById("stratStakeholders").value = stakeholderText;
 
-  // التواصل
   const commText = "Run a multi-channel communication campaign tailored to " + targetGroups + ", explaining the rationale, expected benefits, and transition arrangements. Use " + instrumentPhrases + " as the delivery mechanisms. Provide regular public progress updates and gather feedback to refine the intervention.";
   document.getElementById("stratComm").value = commText;
 
   document.getElementById("strategyResult").style.display = "block";
-
   alert("Suggested policy intervention generated based on Option (" + best.id + ") and " + instruments.length + " selected instrument(s). You can now edit any field.");
-
+  autoSave();
   window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -1016,7 +1077,6 @@ function populateRecommendationCards() {
   if (iMid)   iMid.innerText = document.getElementById("stratMid").value.trim() || "—";
   if (iLong)  iLong.innerText = document.getElementById("stratLong").value.trim() || "—";
 
-  // الأدوات المختارة
   const instruments = getSelectedInstruments();
   const iInst = document.getElementById("implInstruments");
   if (iInst) {
@@ -1028,6 +1088,7 @@ function populateRecommendationCards() {
   }
 }
 
+// ========== المرحلة 8 ==========
 function runStrategy() {
   const short = document.getElementById("stratShort").value.trim();
   if (!short) { alert("Please provide at least a short-term intervention."); return; }
@@ -1035,12 +1096,14 @@ function runStrategy() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+// ========== المرحلة 9 ==========
 function runImplementation() {
   const steps = document.getElementById("implSteps").value.trim();
   if (!steps) { alert("Please define implementation action steps."); return; }
   document.getElementById("implementationResult").style.display = "block";
   window.scrollTo(0, document.body.scrollHeight);
 }
+
 // ========== نظام تسجيل الدخول ==========
 const ACCESS_PASSWORD = "khodair2026";
 
@@ -1061,11 +1124,187 @@ function checkAuthOnLoad() {
   }
 }
 
-window.addEventListener("load", function() {
+// ========== حفظ / تحميل البيانات ==========
+const STORAGE_KEY = "khodair_toolkit_data";
+
+const FIELDS = [
+  "problem","what","who","where","when","why","how",
+  "coreProblem","causes","effects","why1","why2","why3","why4","why5",
+  "fishInstitutional","fishRegulatory","fishAdministrative","fishFinancial","fishHuman","fishTechnology",
+  "events","patterns","structures","mentalModels","stakeholders",
+  "hypA","hypB","hypC","hypD",
+  "evData","evReports","evExperts","evField","evReliability","evRelevance","evCurrency","evCoverage","evGaps",
+  "optA","optApros","optAcons","optB","optBpros","optBcons","optC","optCpros","optCcons",
+  "testFeasibility","testCost","testImpact","testPolitical","scenBest","scenWorst","scenLikely","testRisks",
+  "targetGroups","persGroup1","persGroup2","persGroup3","persContext",
+  "wEffectiveness","wEfficiency","wEquity","wFeasibility","wPolitical","wCost",
+  "aEffectiveness","aEfficiency","aEquity","aFeasibility","aPolitical","aCost",
+  "bEffectiveness","bEfficiency","bEquity","bFeasibility","bPolitical","bCost",
+  "cEffectiveness","cEfficiency","cEquity","cFeasibility","cPolitical","cCost",
+  "stratShort","stratMid","stratLong","stratStakeholders","stratComm",
+  "implSteps","implResponsibility","implKPIs","implReporting","implEval"
+];
+
+const CHECKBOXES = [
+  "instStrategy","instLaw","instDecision","instRegulation","instCampaign","instAwareness",
+  "instTraining","instIncentive","instPilot","instPartnership","instTech","instFunding"
+];
+
+function collectData() {
+  const data = {};
+  FIELDS.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  CHECKBOXES.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.checked;
+  });
+  data._currentStage = getCurrentStage();
+  data._rtl = document.body.classList.contains("rtl");
+  data._savedAt = new Date().toISOString();
+  return data;
+}
+
+function applyData(data) {
+  FIELDS.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el && data[id] !== undefined) el.value = data[id];
+  });
+  CHECKBOXES.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el && data[id] !== undefined) el.checked = data[id];
+  });
+  if (data._rtl) {
+    document.body.classList.add("rtl");
+    document.getElementById("rtlToggle").innerText = "EN";
+  } else {
+    document.body.classList.remove("rtl");
+    document.getElementById("rtlToggle").innerText = "ع";
+  }
+  if (data._currentStage) {
+    goTo(data._currentStage);
+  }
   updateWeightSum();
-  checkAuthOnLoad();
+}
+
+function saveData(manual) {
+  try {
+    const data = collectData();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if (manual) showSaveStatus("✓ Saved successfully");
+  } catch (e) {
+    if (manual) alert("Save failed: " + e.message);
+  }
+}
+
+function autoSave() {
+  saveData(false);
+  showSaveStatus("✓ Auto-saved");
+}
+
+function loadData(manual) {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      if (manual) alert("No saved data found.");
+      return;
+    }
+    const data = JSON.parse(raw);
+    applyData(data);
+    if (manual) showSaveStatus("✓ Loaded");
+  } catch (e) {
+    if (manual) alert("Load failed: " + e.message);
+  }
+}
+
+function clearData() {
+  if (!confirm("Are you sure you want to clear all data? This cannot be undone.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  FIELDS.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+  CHECKBOXES.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+  document.getElementById("argumentSection").classList.add("hidden");
+  document.querySelectorAll(".result").forEach(function(el) { el.style.display = "none"; });
+  updateWeightSum();
+  goTo(1);
+  showSaveStatus("✓ Cleared");
+}
+
+function showSaveStatus(msg) {
+  const s = document.getElementById("saveStatus");
+  s.innerText = msg;
+  s.classList.add("show");
+  clearTimeout(s._timeout);
+  s._timeout = setTimeout(function() {
+    s.classList.remove("show");
+  }, 2000);
+}
+
+function getCurrentStage() {
+  for (let i = 1; i <= 9; i++) {
+    const stage = document.getElementById("stage" + i);
+    if (stage && !stage.classList.contains("hidden")) return i;
+  }
+  return 1;
+}
+
+function attachAutoSaveListeners() {
+  FIELDS.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function() {
+      clearTimeout(window._autoSaveTimer);
+      window._autoSaveTimer = setTimeout(autoSave, 800);
+    });
+    el.addEventListener("change", function() {
+      clearTimeout(window._autoSaveTimer);
+      window._autoSaveTimer = setTimeout(autoSave, 300);
+    });
+  });
+  CHECKBOXES.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("change", function() {
+      clearTimeout(window._autoSaveTimer);
+      window._autoSaveTimer = setTimeout(autoSave, 300);
+    });
+  });
+}
+
+// ========== تبديل RTL / LTR ==========
+function toggleRTL() {
+  document.body.classList.toggle("rtl");
+  const isRTL = document.body.classList.contains("rtl");
+  document.getElementById("rtlToggle").innerText = isRTL ? "EN" : "ع";
+  autoSave();
+}
+
+// ========== About Modal ==========
+function openAbout() {
+  document.getElementById("aboutModal").classList.add("show");
+}
+
+function closeAbout() {
+  document.getElementById("aboutModal").classList.remove("show");
+}
+
+// إغلاق المودال بالضغط خارجه
+document.getElementById("aboutModal").addEventListener("click", function(e) {
+  if (e.target === this) closeAbout();
 });
+
+// ========== عند تحميل الصفحة ==========
+window.addEventListener("load", function() {
+  checkAuthOnLoad();
+  loadData(false);
   updateWeightSum();
+  attachAutoSaveListeners();
 });
 
 </script>
