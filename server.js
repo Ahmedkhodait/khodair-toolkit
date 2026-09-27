@@ -44,6 +44,57 @@ button:hover { opacity: 0.9; }
 .gate { margin-top: 25px; padding: 18px; border-left: 4px solid #d6b85a; background: #10283d; }
 .gate strong { color: #d6b85a; }
 .hidden { display: none; }
+.login-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #07111f 0%, #0b1d31 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.login-box {
+  background: #0d2236;
+  border: 2px solid #d6b85a;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.login-box h1 {
+  color: #d6b85a;
+  font-size: 20px;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+.login-box p {
+  color: #9fb3c8;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+.login-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+.login-box button {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  margin: 0;
+}
+.login-error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 10px;
+  display: none;
+}
+.login-error.show { display: block; }
 .tool-note { color: #9fb3c8; font-size: 13px; }
 label { display: block; margin-top: 10px; color: #c9d8e5; font-size: 14px; }
 label.instr { display: flex; align-items: center; padding: 8px 10px; background: #0d2236; border: 1px solid #29445b; border-radius: 6px; cursor: pointer; margin: 0; font-size: 14px; }
@@ -76,6 +127,15 @@ th, td { text-align: right; }
   <div class="logo">KHODAIR GOVERNMENT POLICY TOOLKIT</div>
   <div class="subtitle">AI-assisted design, personalization & adaptation for public policy</div>
 </header>
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h1>KHODAIR GOVERNMENT POLICY TOOLKIT</h1>
+    <p>Restricted access — Authorized users only</p>
+    <input type="password" id="accessPassword" placeholder="Enter access password" onkeydown="if(event.key==='Enter') checkPassword()">
+    <button onclick="checkPassword()">Enter</button>
+    <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+  </div>
+</div>
 
 <div class="layout">
 <aside>
@@ -981,8 +1041,30 @@ function runImplementation() {
   document.getElementById("implementationResult").style.display = "block";
   window.scrollTo(0, document.body.scrollHeight);
 }
+// ========== نظام تسجيل الدخول ==========
+const ACCESS_PASSWORD = "khodair2026";
+
+function checkPassword() {
+  const entered = document.getElementById("accessPassword").value;
+  if (entered === ACCESS_PASSWORD) {
+    sessionStorage.setItem("khodair_auth", "true");
+    document.getElementById("loginOverlay").style.display = "none";
+  } else {
+    document.getElementById("loginError").classList.add("show");
+    document.getElementById("accessPassword").value = "";
+  }
+}
+
+function checkAuthOnLoad() {
+  if (sessionStorage.getItem("khodair_auth") === "true") {
+    document.getElementById("loginOverlay").style.display = "none";
+  }
+}
 
 window.addEventListener("load", function() {
+  updateWeightSum();
+  checkAuthOnLoad();
+});
   updateWeightSum();
 });
 
