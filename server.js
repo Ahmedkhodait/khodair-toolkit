@@ -67,7 +67,6 @@ th, td { text-align: right; }
 .summary-label { color: #9fb3c8; }
 .summary-value { color: #d6b85a; font-weight: bold; }
 
-/* ============ Login ============ */
 .login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #07111f 0%, #0b1d31 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; }
 .login-box { background: #0d2236; border: 2px solid #d6b85a; border-radius: 12px; padding: 40px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
 .login-box h1 { color: #d6b85a; font-size: 20px; margin: 0 0 10px 0; line-height: 1.4; }
@@ -77,7 +76,6 @@ th, td { text-align: right; }
 .login-error { color: #ff6b6b; font-size: 13px; margin-top: 10px; display: none; }
 .login-error.show { display: block; }
 
-/* ============ RTL ============ */
 body.rtl { direction: rtl; }
 body.rtl aside { border-right: none; border-left: 1px solid #1d3a52; }
 body.rtl .stage { border-left: none; border-right: 3px solid #29445b; }
@@ -88,11 +86,9 @@ body.rtl label.instr { direction: rtl; }
 body.rtl input, body.rtl textarea { direction: rtl; text-align: right; }
 body.rtl input[type="number"] { direction: ltr; text-align: center; }
 
-/* ============ Toggle RTL Button ============ */
 .rtl-toggle { position: fixed; bottom: 20px; left: 20px; background: #d6b85a; color: #07111f; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9998; padding: 0; margin: 0; }
 .rtl-toggle:hover { transform: scale(1.1); opacity: 1; }
 
-/* ============ Modal (About) ============ */
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center; z-index: 10000; }
 .modal-overlay.show { display: flex; }
 .modal-box { background: #0d2236; border: 2px solid #d6b85a; border-radius: 12px; padding: 35px; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; text-align: center; }
@@ -105,7 +101,6 @@ body.rtl .modal-box .about-section { text-align: right; }
 .modal-box .about-section strong { color: #d6b85a; }
 .modal-box .close-btn { margin-top: 20px; width: 100%; padding: 12px; }
 
-/* ============ Save/Load Status ============ */
 .save-status { position: fixed; bottom: 20px; right: 20px; background: #1a3a1a; color: #b3ffb3; border: 1px solid #6bff6b; padding: 10px 16px; border-radius: 6px; font-size: 13px; z-index: 9997; opacity: 0; transition: opacity 0.3s; }
 .save-status.show { opacity: 1; }
 body.rtl .save-status { right: auto; left: 80px; }
@@ -120,7 +115,8 @@ body.rtl .save-status { right: auto; left: 80px; }
 }
 </style>
 </head>
-<body><!-- Login Overlay -->
+<body>
+
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
     <h1>KHODAIR GOVERNMENT POLICY TOOLKIT</h1>
@@ -131,7 +127,6 @@ body.rtl .save-status { right: auto; left: 80px; }
   </div>
 </div>
 
-<!-- About Modal -->
 <div class="modal-overlay" id="aboutModal">
   <div class="modal-box">
     <h1>KHODAIR GOVERNMENT POLICY TOOLKIT</h1>
@@ -139,17 +134,17 @@ body.rtl .save-status { right: auto; left: 80px; }
 
     <div class="about-section">
       <h3>About the Toolkit</h3>
-      <p>An interactive 9-stage toolkit that guides policy analysts, government officials, and postgraduate students through a disciplined policy design process — from problem definition to implementation.</p>
+      <p>An interactive 11-stage toolkit that guides policy analysts, government officials, and postgraduate students through a disciplined policy design process — from problem definition to monitoring and evaluation.</p>
     </div>
 
     <div class="about-section">
       <h3>Methodology</h3>
-      <p>The toolkit integrates:</p>
       <p>• <strong>Structured Diagnosis</strong> — 5W1H, Problem Tree, Five Whys, Fishbone, Iceberg Model</p>
       <p>• <strong>Evidence-Based Analysis</strong> — Source evaluation and knowledge gap identification</p>
       <p>• <strong>Multi-Criteria Decision Matrix</strong> — Weighted scoring across effectiveness, efficiency, equity, feasibility, political acceptability, and cost</p>
       <p>• <strong>William Dunn's Argument Model</strong> — Claim, Information, Warrant, Backing, Qualifier, Rebuttal</p>
       <p>• <strong>Policy Instruments Framework</strong> — Strategy, legislation, campaigns, training, incentives, partnerships, and more</p>
+      <p>• <strong>Full Policy Cycle</strong> — From problem structuring through implementation, monitoring, and evaluation</p>
     </div>
 
     <div class="about-section">
@@ -160,27 +155,21 @@ body.rtl .save-status { right: auto; left: 80px; }
 
     <div class="about-section">
       <h3>Version</h3>
-      <p><strong>v2.0</strong> — 2026</p>
-      <p style="font-size:12px; color:#9fb3c8; margin-top:10px;">For feedback and suggestions, please contact the developer.</p>
+      <p><strong>v3.0</strong> — 2026</p>
     </div>
 
     <button class="close-btn" onclick="closeAbout()">Close</button>
   </div>
 </div>
 
-<!-- RTL Toggle -->
 <button class="rtl-toggle" id="rtlToggle" onclick="toggleRTL()" title="Toggle RTL / LTR">ع</button>
-
-<!-- Save Status -->
 <div class="save-status" id="saveStatus">✓ Saved</div>
 
-<!-- Header -->
 <header>
   <div class="header-left">
     <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="46" fill="none" stroke="#d6b85a" stroke-width="3"/>
-      <path d="M30 70 L30 30 L38 30 L38 45 L62 45 L62 30 L70 30 L70 70 L62 70 L62 53 L38 53 L38 70 Z" fill="#d6b85a"/>
-      <circle cx="50" cy="50" r="6" fill="#0b1d31" stroke="#d6b85a" stroke-width="2"/>
+      <text x="50" y="50" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="#d6b85a" text-anchor="middle" dominant-baseline="central">K</text>
     </svg>
     <div>
       <div class="logo-text">KHODAIR GOVERNMENT POLICY TOOLKIT</div>
@@ -206,6 +195,8 @@ body.rtl .save-status { right: auto; left: 80px; }
   <div class="stage locked" id="nav7" onclick="goTo(7)">07 - Recommendation (Dunn)</div>
   <div class="stage locked" id="nav8" onclick="goTo(8)">08 - Policy Intervention</div>
   <div class="stage locked" id="nav9" onclick="goTo(9)">09 - Implementation</div>
+  <div class="stage locked" id="nav10" onclick="goTo(10)">10 - Monitoring</div>
+  <div class="stage locked" id="nav11" onclick="goTo(11)">11 - Evaluation</div>
 </aside>
 
 <main>
@@ -550,7 +541,7 @@ body.rtl .save-status { right: auto; left: 80px; }
     </table>
 
     <div id="weightWarning" class="warning">
-      Warning: The sum of weights is <strong><span id="weightSumValue">0</span>%</strong>. The total must equal 100% for accurate results.
+      Warning: The sum of weights is <strong><span id="weightSumValue">0</span>%</strong>. The total must equal 100%.
     </div>
     <div id="weightOk" class="ok-msg">
       Weights total = 100%. Ready to calculate.
@@ -577,7 +568,7 @@ body.rtl .save-status { right: auto; left: 80px; }
 <!-- STAGE 8 -->
 <div class="card hidden" id="stage8">
   <h2>08 - Policy Intervention</h2>
-  <p>Design the policy intervention based on the approved recommendation. Select the policy instruments to be used, then let the system auto-suggest a full intervention grounded in the chosen option.</p>
+  <p>Design the policy intervention based on the approved recommendation.</p>
 
   <div class="rec-card">
     <h3>Approved Recommendation (From Stage 07)</h3>
@@ -596,29 +587,29 @@ body.rtl .save-status { right: auto; left: 80px; }
   </div>
 
   <div class="box" style="border-left: 4px solid #6bb85a;">
-    <h3>🎛️ Intervention Instruments</h3>
+    <h3>Intervention Instruments</h3>
     <p class="tool-note">Select one or more policy instruments to be used in the intervention.</p>
 
     <div class="grid three" style="margin-top:15px;">
-      <label class="instr"><input type="checkbox" id="instStrategy"> Strategy (استراتيجية)</label>
-      <label class="instr"><input type="checkbox" id="instLaw"> Legislation / Law (تشريع)</label>
-      <label class="instr"><input type="checkbox" id="instDecision"> Executive Decision (قرار)</label>
-      <label class="instr"><input type="checkbox" id="instRegulation"> Regulation (لائحة)</label>
-      <label class="instr"><input type="checkbox" id="instCampaign"> Public Campaign (حملة)</label>
-      <label class="instr"><input type="checkbox" id="instAwareness"> Awareness Program (توعية)</label>
-      <label class="instr"><input type="checkbox" id="instTraining"> Training Program (تدريب)</label>
-      <label class="instr"><input type="checkbox" id="instIncentive"> Incentive / Subsidy (حافز)</label>
-      <label class="instr"><input type="checkbox" id="instPilot"> Pilot Program (تجريبي)</label>
-      <label class="instr"><input type="checkbox" id="instPartnership"> Public-Private Partnership (شراكة)</label>
-      <label class="instr"><input type="checkbox" id="instTech"> Technology Deployment (تقنية)</label>
-      <label class="instr"><input type="checkbox" id="instFunding"> Funding Program (تمويل)</label>
+      <label class="instr"><input type="checkbox" id="instStrategy"> Strategy</label>
+      <label class="instr"><input type="checkbox" id="instLaw"> Legislation / Law</label>
+      <label class="instr"><input type="checkbox" id="instDecision"> Executive Decision</label>
+      <label class="instr"><input type="checkbox" id="instRegulation"> Regulation</label>
+      <label class="instr"><input type="checkbox" id="instCampaign"> Public Campaign</label>
+      <label class="instr"><input type="checkbox" id="instAwareness"> Awareness Program</label>
+      <label class="instr"><input type="checkbox" id="instTraining"> Training Program</label>
+      <label class="instr"><input type="checkbox" id="instIncentive"> Incentive / Subsidy</label>
+      <label class="instr"><input type="checkbox" id="instPilot"> Pilot Program</label>
+      <label class="instr"><input type="checkbox" id="instPartnership"> Public-Private Partnership</label>
+      <label class="instr"><input type="checkbox" id="instTech"> Technology Deployment</label>
+      <label class="instr"><input type="checkbox" id="instFunding"> Funding Program</label>
     </div>
   </div>
 
   <div class="box" style="border-left: 4px solid #6bb85a; background: #0d2a17;">
     <h3>Auto-Suggest Intervention</h3>
-    <p class="tool-note">The system will propose a full policy intervention based on the recommendation, selected instruments, target groups, and stakeholders.</p>
-    <button class="accent-btn" onclick="generateSuggestedIntervention()">✨ Auto-Suggest Policy Intervention</button>
+    <p class="tool-note">The system will propose a full policy intervention based on the recommendation and selected instruments.</p>
+    <button class="accent-btn" onclick="generateSuggestedIntervention()">Auto-Suggest Policy Intervention</button>
   </div>
 
   <div class="box">
@@ -690,7 +681,7 @@ body.rtl .save-status { right: auto; left: 80px; }
     <textarea id="implResponsibility"></textarea>
   </div>
   <div class="box">
-    <h3>Monitoring & Evaluation</h3>
+    <h3>Monitoring & Evaluation Planning</h3>
     <label>KPIs</label><textarea id="implKPIs"></textarea>
     <label>Reporting Frequency</label><textarea id="implReporting"></textarea>
     <label>Evaluation Method</label><textarea id="implEval"></textarea>
@@ -702,19 +693,154 @@ body.rtl .save-status { right: auto; left: 80px; }
     <div class="gate">
       <strong>QUALITY GATE 09</strong>
       <p>Implementation plan completed.</p>
-      <p>Status: <strong>POLICY CYCLE COMPLETE</strong></p>
+      <p>Status: <strong>READY FOR MONITORING</strong></p>
     </div>
     <button class="secondary" onclick="goTo(8)"><- Back</button>
+    <button onclick="goTo(10)">Proceed to Monitoring -></button>
+  </div>
+</div>
+
+<!-- STAGE 10 - Monitoring -->
+<div class="card hidden" id="stage10">
+  <h2>10 - Monitoring</h2>
+  <p>Monitor the implementation of the policy intervention, track progress against expected results, and detect early warnings of deviation.</p>
+
+  <div class="rec-card">
+    <h3>Policy Under Monitoring</h3>
+    <div class="summary-row">
+      <span class="summary-label">Chosen Option:</span>
+      <span class="summary-value" id="monitorChosenOption">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Weighted Score:</span>
+      <span class="summary-value" id="monitorChosenScore">—</span>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3>01 - Monitoring Framework</h3>
+    <label>Monitoring Framework</label>
+    <textarea id="monFramework" placeholder="Describe the overall monitoring framework (who monitors, how, at what level)."></textarea>
+    <label>Responsible Monitoring Body</label>
+    <textarea id="monResponsible" placeholder="Which entity or department is responsible for monitoring?"></textarea>
+  </div>
+
+  <div class="box">
+    <h3>02 - Key Performance Indicators (KPIs)</h3>
+    <label>Primary KPIs</label>
+    <textarea id="monKPIs" placeholder="List the main KPIs that will be tracked (with baseline and target)."></textarea>
+    <label>Secondary KPIs</label>
+    <textarea id="monKPIsSecondary" placeholder="Secondary / supporting indicators."></textarea>
+  </div>
+
+  <div class="box">
+    <h3>03 - Data Collection</h3>
+    <label>Data Collection Methods</label>
+    <textarea id="monDataMethods" placeholder="Surveys, administrative data, field observations, sensors, etc."></textarea>
+    <label>Data Sources</label>
+    <textarea id="monDataSources" placeholder="Which sources will provide the data?"></textarea>
+    <label>Reporting Frequency</label>
+    <textarea id="monFrequency" placeholder="Monthly, quarterly, annually?"></textarea>
+  </div>
+
+  <div class="box">
+    <h3>04 - Early Warning Indicators</h3>
+    <label>Early Warning Indicators</label>
+    <textarea id="monWarnings" placeholder="What signals would indicate the policy is off-track?"></textarea>
+    <label>Corrective Actions</label>
+    <textarea id="monCorrective" placeholder="What corrective actions can be triggered if warnings appear?"></textarea>
+  </div>
+
+  <button onclick="runMonitoring()">Run Monitoring Quality Check</button>
+
+  <div id="monitoringResult" class="result">
+    <div class="gate">
+      <strong>QUALITY GATE 10</strong>
+      <p>Monitoring framework established with KPIs, data collection, and early warnings.</p>
+      <p>Status: <strong>READY FOR EVALUATION</strong></p>
+    </div>
+    <button class="secondary" onclick="goTo(9)"><- Back</button>
+    <button onclick="goTo(11)">Proceed to Evaluation -></button>
+  </div>
+</div>
+
+<!-- STAGE 11 - Evaluation -->
+<div class="card hidden" id="stage11">
+  <h2>11 - Evaluation</h2>
+  <p>Evaluate the policy intervention against its stated objectives, assess its impact, and extract lessons learned for future policy cycles.</p>
+
+  <div class="rec-card">
+    <h3>Policy Evaluation Summary</h3>
+    <div class="summary-row">
+      <span class="summary-label">Problem:</span>
+      <span class="summary-value" id="evalProblem">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Chosen Policy Option:</span>
+      <span class="summary-value" id="evalChosenOption">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Weighted Score:</span>
+      <span class="summary-value" id="evalChosenScore">—</span>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3>01 - Evaluation Criteria (Based on the Decision Matrix)</h3>
+    <label>Effectiveness Assessment</label>
+    <textarea id="evalEffectiveness" placeholder="Did the policy achieve its stated objectives?"></textarea>
+    <label>Efficiency Assessment</label>
+    <textarea id="evalEfficiency" placeholder="Were resources used efficiently?"></textarea>
+    <label>Equity Assessment</label>
+    <textarea id="evalEquity" placeholder="Were the benefits distributed fairly across target groups?"></textarea>
+    <label>Feasibility / Sustainability Assessment</label>
+    <textarea id="evalFeasibility" placeholder="Is the intervention sustainable over time?"></textarea>
+  </div>
+
+  <div class="box">
+    <h3>02 - Evaluation Method</h3>
+    <label>Evaluation Method</label>
+    <textarea id="evalMethod" placeholder="Before/after comparison, control group, surveys, cost-benefit analysis, etc."></textarea>
+    <label>Impact Assessment</label>
+    <textarea id="evalImpact" placeholder="What is the observed or estimated impact?"></textarea>
+  </div>
+
+  <div class="box">
+    <h3>03 - Lessons Learned</h3>
+    <label>What worked well</label>
+    <textarea id="evalWorked" placeholder="Successful elements of the intervention."></textarea>
+    <label>What did not work</label>
+    <textarea id="evalFailed" placeholder="Challenges, failures, or unintended consequences."></textarea>
+  </div>
+
+  <div class="box">
+    <h3>04 - Policy Learning & Recommendations</h3>
+    <label>Policy Learning</label>
+    <textarea id="evalLearning" placeholder="What has this policy cycle taught us?"></textarea>
+    <label>Recommendations for Future Cycles</label>
+    <textarea id="evalRecommendations" placeholder="What should be done differently next time?"></textarea>
+  </div>
+
+  <button onclick="runEvaluation()">Run Evaluation Quality Check</button>
+
+  <div id="evaluationResult" class="result">
+    <div class="gate">
+      <strong>QUALITY GATE 11</strong>
+      <p>Evaluation completed. Lessons learned captured for future policy cycles.</p>
+      <p>Status: <strong>POLICY CYCLE COMPLETE ✓</strong></p>
+    </div>
+    <button class="secondary" onclick="goTo(10)"><- Back</button>
     <button onclick="window.print()">Print / Export Full Report</button>
   </div>
 </div>
 
 </main>
-</div><script>
+</div>
 
-// ========== التنقل ==========
+<script>
+
 function goTo(n) {
-  for (let i = 1; i <= 9; i++) {
+  for (let i = 1; i <= 11; i++) {
     const stage = document.getElementById("stage" + i);
     const nav = document.getElementById("nav" + i);
     if (stage) stage.classList.add("hidden");
@@ -737,14 +863,13 @@ function goTo(n) {
     }
   }
 
-  if (n === 8 || n === 9) {
+  if (n === 8 || n === 9 || n === 10 || n === 11) {
     populateRecommendationCards();
   }
 
   window.scrollTo(0, 0);
 }
 
-// ========== المرحلة 1 ==========
 function analyzeProblem() {
   const problem = document.getElementById("problem").value.trim();
   if (!problem) { alert("Please enter a policy problem first."); return; }
@@ -752,7 +877,6 @@ function analyzeProblem() {
   document.getElementById("problemResult").style.display = "block";
 }
 
-// ========== المرحلة 2 ==========
 function runDiagnosis() {
   const fields = ["what","who","where","when","why","how"];
   let completed = 0;
@@ -768,7 +892,6 @@ function runDiagnosis() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 3 ==========
 function runEvidence() {
   const data = document.getElementById("evData").value.trim();
   const reports = document.getElementById("evReports").value.trim();
@@ -777,7 +900,6 @@ function runEvidence() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 4 ==========
 function runOptions() {
   const a = document.getElementById("optA").value.trim();
   const b = document.getElementById("optB").value.trim();
@@ -786,7 +908,6 @@ function runOptions() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 5 ==========
 function runTesting() {
   const feas = document.getElementById("testFeasibility").value.trim();
   const impact = document.getElementById("testImpact").value.trim();
@@ -798,7 +919,6 @@ function runTesting() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 6 ==========
 function runPersonalization() {
   const groups = document.getElementById("targetGroups").value.trim();
   if (!groups) { alert("Please define target groups first."); return; }
@@ -806,7 +926,6 @@ function runPersonalization() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 7: تحذير الأوزان ==========
 function updateWeightSum() {
   const weights = ["wEffectiveness","wEfficiency","wEquity","wFeasibility","wPolitical","wCost"];
   let total = 0;
@@ -828,7 +947,6 @@ function updateWeightSum() {
   }
 }
 
-// ========== المرحلة 7: حساب المصفوفة ==========
 let lastMatrixResult = null;
 
 function calculateMatrix() {
@@ -869,7 +987,7 @@ function calculateMatrix() {
   if (Math.abs(totalWeight - 100) > 0.01) {
     document.getElementById("weightWarning").classList.add("show");
     document.getElementById("weightOk").classList.remove("show");
-    alert("Note: weights total is " + totalWeight + "% (not 100%). Results were normalized to 100% for accuracy.");
+    alert("Note: weights total is " + totalWeight + "% (not 100%). Results normalized.");
   } else {
     document.getElementById("weightWarning").classList.remove("show");
     document.getElementById("weightOk").classList.add("show");
@@ -880,7 +998,6 @@ function calculateMatrix() {
   return lastMatrixResult;
 }
 
-// ========== المرحلة 7: توليد الحجة ==========
 function generatePolicyArgument() {
   const scores = lastMatrixResult || calculateMatrix();
 
@@ -915,7 +1032,7 @@ function generatePolicyArgument() {
 
   const warrant = "This option achieved the highest weighted score in the decision matrix (" + best.score.toFixed(2) + " out of 10), ahead of Option (" + second.id + ") at " + second.score.toFixed(2) + " and Option (" + worst.id + ") at " + worst.score.toFixed(2) + ", after criteria were weighted according to their relative importance to the decision-maker.";
 
-  const backing = "The principle of Optimal Resource Allocation in policy analysis (William Dunn) holds that when resources are constrained, the alternative that maximizes net benefit relative to cost should be selected, taking into account effectiveness, efficiency, and equity.";
+  const backing = "The principle of Optimal Resource Allocation in policy analysis (William Dunn) holds that when resources are constrained, the alternative that maximizes net benefit relative to cost should be selected.";
 
   const rebuttal = "Unless the relative weights of the criteria change according to political priorities, sufficient funding is not secured, or cooperation among implementing agencies fails.";
 
@@ -939,7 +1056,6 @@ function generatePolicyArgument() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== قراءة الأدوات المختارة ==========
 function getSelectedInstruments() {
   const list = [];
   const map = [
@@ -963,7 +1079,6 @@ function getSelectedInstruments() {
   return list;
 }
 
-// ========== المرحلة 8: توليد التدخل ==========
 function generateSuggestedIntervention() {
   if (!lastMatrixResult) {
     try { calculateMatrix(); } catch(e) {
@@ -1004,19 +1119,19 @@ function generateSuggestedIntervention() {
 
   const templates = {
     A: {
-      short: "Prepare the enabling conditions for the infrastructure-based intervention chosen to address: " + problem + ". This will be implemented through " + instrumentPhrases + ". Establish a steering committee, secure budget allocations, and complete the necessary feasibility studies before any physical work begins.",
-      mid: "Execute the phased construction, expansion, or upgrade works. Manage environmental, social, and traffic impacts during implementation. Coordinate with " + stakeholders + " and provide periodic public updates to " + targetGroups + ".",
-      long: "Operate and maintain the new infrastructure. Conduct periodic impact assessments, document lessons learned, and integrate findings into future policy cycles. Continue to use " + instrumentPhrases + " to sustain the intervention."
+      short: "Prepare the enabling conditions for the infrastructure-based intervention chosen to address: " + problem + ". This will be implemented through " + instrumentPhrases + ". Establish a steering committee, secure budget allocations, and complete feasibility studies before physical work begins.",
+      mid: "Execute the phased construction, expansion, or upgrade works. Manage environmental, social, and operational impacts. Coordinate with " + stakeholders + " and provide periodic public updates to " + targetGroups + ".",
+      long: "Operate and maintain the new infrastructure. Conduct periodic impact assessments, document lessons learned, and integrate findings into future policy cycles."
     },
     B: {
-      short: "Launch the preparatory phase for the demand-management and public-transport measures chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Begin with public awareness campaigns and improve the existing public transport capacity before introducing any restrictive measure, so that viable alternatives exist for " + targetGroups + ".",
-      mid: "Phase in demand-management measures and expand mass transit. Provide targeted support to vulnerable groups during the transition. Coordinate closely with " + stakeholders + " and maintain ongoing communication with " + targetGroups + ".",
-      long: "Achieve a behavioural shift towards sustainable mobility. Integrate transit networks, evaluate the distributional impact across different population segments, and refine the intervention periodically."
+      short: "Launch the preparatory phase for the demand-management and service-delivery measures chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Begin with public awareness campaigns and improve existing service capacity before introducing any restrictive measure.",
+      mid: "Phase in demand-management measures and expand service capacity. Provide targeted support to vulnerable groups during the transition. Coordinate closely with " + stakeholders + " and maintain ongoing communication with " + targetGroups + ".",
+      long: "Achieve a behavioural shift towards sustainable practices. Integrate service networks, evaluate the distributional impact across different population segments, and refine the intervention periodically."
     },
     C: {
-      short: "Deploy the first phase of the smart-systems intervention chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Start with a pilot on a selected corridor, launch a mobile application for route guidance and real-time updates, and establish a technical team and data governance framework.",
-      mid: "Scale up deployment to main corridors. Train technical staff, integrate systems into a unified control centre, and collect operational data to optimize traffic flow. Coordinate with " + stakeholders + " and communicate progress to " + targetGroups + ".",
-      long: "Achieve full integration with public transport and urban management systems. Transition to a smart-city mobility architecture with continuous optimization and periodic technology upgrades."
+      short: "Deploy the first phase of the smart-systems intervention chosen to address: " + problem + ". Implement through " + instrumentPhrases + ". Start with a pilot in a selected area, launch supporting digital tools, and establish a technical team and data governance framework.",
+      mid: "Scale up deployment to main areas. Train technical staff, integrate systems into a unified control centre, and collect operational data to optimize performance. Coordinate with " + stakeholders + " and communicate progress to " + targetGroups + ".",
+      long: "Achieve full integration with existing systems. Transition to a smart-city / smart-service architecture with continuous optimization and periodic technology upgrades."
     }
   };
 
@@ -1026,14 +1141,14 @@ function generateSuggestedIntervention() {
   document.getElementById("stratMid").value = t.mid;
   document.getElementById("stratLong").value = t.long;
 
-  const stakeholderText = "Engage " + stakeholders + " through structured consultation sessions, joint technical working groups, and transparent progress reporting. The selected instruments (" + instrumentLabels + ") will be deployed in coordination with these parties to build ownership and reduce resistance through early involvement and shared decision-making.";
+  const stakeholderText = "Engage " + stakeholders + " through structured consultation sessions, joint technical working groups, and transparent progress reporting. The selected instruments (" + instrumentLabels + ") will be deployed in coordination with these parties to build ownership and reduce resistance.";
   document.getElementById("stratStakeholders").value = stakeholderText;
 
-  const commText = "Run a multi-channel communication campaign tailored to " + targetGroups + ", explaining the rationale, expected benefits, and transition arrangements. Use " + instrumentPhrases + " as the delivery mechanisms. Provide regular public progress updates and gather feedback to refine the intervention.";
+  const commText = "Run a multi-channel communication campaign tailored to " + targetGroups + ", explaining the rationale, expected benefits, and transition arrangements. Use " + instrumentPhrases + " as the delivery mechanisms. Provide regular public progress updates and gather feedback.";
   document.getElementById("stratComm").value = commText;
 
   document.getElementById("strategyResult").style.display = "block";
-  alert("Suggested policy intervention generated based on Option (" + best.id + ") and " + instruments.length + " selected instrument(s). You can now edit any field.");
+  alert("Suggested policy intervention generated based on Option (" + best.id + ") and " + instruments.length + " selected instrument(s).");
   autoSave();
   window.scrollTo(0, document.body.scrollHeight);
 }
@@ -1077,6 +1192,17 @@ function populateRecommendationCards() {
   if (iMid)   iMid.innerText = document.getElementById("stratMid").value.trim() || "—";
   if (iLong)  iLong.innerText = document.getElementById("stratLong").value.trim() || "—";
 
+  const mOpt = document.getElementById("monitorChosenOption");
+  const mScore = document.getElementById("monitorChosenScore");
+  const eProb = document.getElementById("evalProblem");
+  const eOpt = document.getElementById("evalChosenOption");
+  const eScore = document.getElementById("evalChosenScore");
+  if (mOpt) mOpt.innerText = "Option (" + best.id + "): " + best.name;
+  if (mScore) mScore.innerText = best.score.toFixed(2) + " / 10";
+  if (eProb) eProb.innerText = problem;
+  if (eOpt) eOpt.innerText = "Option (" + best.id + "): " + best.name;
+  if (eScore) eScore.innerText = best.score.toFixed(2) + " / 10";
+
   const instruments = getSelectedInstruments();
   const iInst = document.getElementById("implInstruments");
   if (iInst) {
@@ -1088,7 +1214,6 @@ function populateRecommendationCards() {
   }
 }
 
-// ========== المرحلة 8 ==========
 function runStrategy() {
   const short = document.getElementById("stratShort").value.trim();
   if (!short) { alert("Please provide at least a short-term intervention."); return; }
@@ -1096,7 +1221,6 @@ function runStrategy() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== المرحلة 9 ==========
 function runImplementation() {
   const steps = document.getElementById("implSteps").value.trim();
   if (!steps) { alert("Please define implementation action steps."); return; }
@@ -1104,7 +1228,30 @@ function runImplementation() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-// ========== نظام تسجيل الدخول ==========
+function runMonitoring() {
+  const framework = document.getElementById("monFramework").value.trim();
+  const kpis = document.getElementById("monKPIs").value.trim();
+  if (!framework || !kpis) {
+    alert("Monitoring requires at least a framework and primary KPIs.");
+    return;
+  }
+  document.getElementById("monitoringResult").style.display = "block";
+  autoSave();
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function runEvaluation() {
+  const method = document.getElementById("evalMethod").value.trim();
+  const learning = document.getElementById("evalLearning").value.trim();
+  if (!method || !learning) {
+    alert("Evaluation requires at least a method and policy learning.");
+    return;
+  }
+  document.getElementById("evaluationResult").style.display = "block";
+  autoSave();
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 const ACCESS_PASSWORD = "khodair2026";
 
 function checkPassword() {
@@ -1124,7 +1271,6 @@ function checkAuthOnLoad() {
   }
 }
 
-// ========== حفظ / تحميل البيانات ==========
 const STORAGE_KEY = "khodair_toolkit_data";
 
 const FIELDS = [
@@ -1142,7 +1288,9 @@ const FIELDS = [
   "bEffectiveness","bEfficiency","bEquity","bFeasibility","bPolitical","bCost",
   "cEffectiveness","cEfficiency","cEquity","cFeasibility","cPolitical","cCost",
   "stratShort","stratMid","stratLong","stratStakeholders","stratComm",
-  "implSteps","implResponsibility","implKPIs","implReporting","implEval"
+  "implSteps","implResponsibility","implKPIs","implReporting","implEval",
+  "monFramework","monResponsible","monKPIs","monKPIsSecondary","monDataMethods","monDataSources","monFrequency","monWarnings","monCorrective",
+  "evalEffectiveness","evalEfficiency","evalEquity","evalFeasibility","evalMethod","evalImpact","evalWorked","evalFailed","evalLearning","evalRecommendations"
 ];
 
 const CHECKBOXES = [
@@ -1247,7 +1395,7 @@ function showSaveStatus(msg) {
 }
 
 function getCurrentStage() {
-  for (let i = 1; i <= 9; i++) {
+  for (let i = 1; i <= 11; i++) {
     const stage = document.getElementById("stage" + i);
     if (stage && !stage.classList.contains("hidden")) return i;
   }
@@ -1277,7 +1425,6 @@ function attachAutoSaveListeners() {
   });
 }
 
-// ========== تبديل RTL / LTR ==========
 function toggleRTL() {
   document.body.classList.toggle("rtl");
   const isRTL = document.body.classList.contains("rtl");
@@ -1285,7 +1432,6 @@ function toggleRTL() {
   autoSave();
 }
 
-// ========== About Modal ==========
 function openAbout() {
   document.getElementById("aboutModal").classList.add("show");
 }
@@ -1294,12 +1440,10 @@ function closeAbout() {
   document.getElementById("aboutModal").classList.remove("show");
 }
 
-// إغلاق المودال بالضغط خارجه
 document.getElementById("aboutModal").addEventListener("click", function(e) {
   if (e.target === this) closeAbout();
 });
 
-// ========== عند تحميل الصفحة ==========
 window.addEventListener("load", function() {
   checkAuthOnLoad();
   loadData(false);
