@@ -134,7 +134,7 @@ body.rtl .save-status { right: auto; left: 80px; }
 
     <div class="about-section">
       <h3>About the Toolkit</h3>
-      <p>An interactive 11-stage toolkit that guides policy analysts, government officials, and postgraduate students through a disciplined policy design process — from problem definition to monitoring and evaluation.</p>
+      <p>An interactive 11-stage toolkit that guides policy analysts, government officials, and postgraduate students through a disciplined policy design process — from problem definition through monitoring and evaluation.</p>
     </div>
 
     <div class="about-section">
@@ -155,7 +155,7 @@ body.rtl .save-status { right: auto; left: 80px; }
 
     <div class="about-section">
       <h3>Version</h3>
-      <p><strong>v3.0</strong> — 2026</p>
+      <p><strong>v3.1</strong> — 2026</p>
     </div>
 
     <button class="close-btn" onclick="closeAbout()">Close</button>
@@ -177,10 +177,10 @@ body.rtl .save-status { right: auto; left: 80px; }
     </div>
   </div>
   <div class="header-actions">
-    <button class="secondary" onclick="openAbout()">ℹ️ About</button>
-    <button class="secondary" onclick="saveData(true)">💾 Save</button>
-    <button class="secondary" onclick="loadData(true)">📂 Load</button>
-    <button class="danger-btn" onclick="clearData()">🗑️ Clear</button>
+    <button class="secondary" onclick="openAbout()">About</button>
+    <button class="secondary" onclick="saveData(true)">Save</button>
+    <button class="secondary" onclick="loadData(true)">Load</button>
+    <button class="danger-btn" onclick="clearData()">Clear</button>
   </div>
 </header>
 
@@ -548,7 +548,39 @@ body.rtl .save-status { right: auto; left: 80px; }
     </div>
 
     <button onclick="calculateMatrix()">Calculate Matrix</button>
-    <button class="secondary" onclick="generatePolicyArgument()">Generate Policy Recommendation (Dunn Model)</button>
+  </div>
+
+  <div class="box" style="border-left: 4px solid #6bb85a; background: #0d2a17;">
+    <h3>Dunn Argument Components - Fill Each Element</h3>
+    <p class="tool-note">Fill in the six components of William Dunn's argument model, then click "Formulate Final Recommendation" to produce a polished recommendation.</p>
+
+    <label>1 - Claim (الادعاء - التوصية الأساسية)</label>
+    <textarea id="dunnClaim" placeholder="What should be done? (The policy recommendation)"></textarea>
+
+    <label>2 - Information / Grounds (المعلومات - الأدلة والبيانات)</label>
+    <textarea id="dunnInformation" placeholder="What evidence supports the claim?"></textarea>
+
+    <label>3 - Warrant (المبرر - الرابط المنطقي)</label>
+    <textarea id="dunnWarrant" placeholder="Why does the information support the claim?"></textarea>
+
+    <label>4 - Backing (الدعم - المبادئ والمراجع النظرية)</label>
+    <textarea id="dunnBacking" placeholder="What theoretical or empirical support backs the warrant?"></textarea>
+
+    <label>5 - Qualifier (درجة اليقين)</label>
+    <select id="dunnQualifier">
+      <option value="It is certain that">It is certain that — مؤكد</option>
+      <option value="It is highly probable that" selected>It is highly probable that — محتمل جدًا</option>
+      <option value="It is probable that">It is probable that — محتمل</option>
+      <option value="It is plausible that">It is plausible that — معقول</option>
+      <option value="It is possible that">It is possible that — ممكن</option>
+      <option value="It is doubtful that">It is doubtful that — مشكوك فيه</option>
+    </select>
+
+    <label>6 - Rebuttal (الاستثناءات والتحذيرات)</label>
+    <textarea id="dunnRebuttal" placeholder="Under what conditions would the recommendation fail?"></textarea>
+
+    <button class="accent-btn" onclick="autoFillDunnComponents()">Auto-Fill from Matrix</button>
+    <button onclick="formulateFinalRecommendation()">Formulate Final Recommendation</button>
   </div>
 
   <div id="argumentSection" class="box hidden" style="border-left: 4px solid #d6b85a;">
@@ -827,7 +859,7 @@ body.rtl .save-status { right: auto; left: 80px; }
     <div class="gate">
       <strong>QUALITY GATE 11</strong>
       <p>Evaluation completed. Lessons learned captured for future policy cycles.</p>
-      <p>Status: <strong>POLICY CYCLE COMPLETE ✓</strong></p>
+      <p>Status: <strong>POLICY CYCLE COMPLETE</strong></p>
     </div>
     <button class="secondary" onclick="goTo(10)"><- Back</button>
     <button onclick="window.print()">Print / Export Full Report</button>
@@ -998,7 +1030,7 @@ function calculateMatrix() {
   return lastMatrixResult;
 }
 
-function generatePolicyArgument() {
+function autoFillDunnComponents() {
   const scores = lastMatrixResult || calculateMatrix();
 
   const problem = document.getElementById("problem").value.trim() || "the identified policy problem";
@@ -1009,6 +1041,7 @@ function generatePolicyArgument() {
   const evidenceData = document.getElementById("evData").value.trim();
   const evidenceReports = document.getElementById("evReports").value.trim();
   const evExperts = document.getElementById("evExperts").value.trim();
+  const stakeholders = document.getElementById("stakeholders").value.trim();
 
   const options = [
     { id: "A", name: optA, score: scores.A },
@@ -1016,43 +1049,109 @@ function generatePolicyArgument() {
     { id: "C", name: optC, score: scores.C }
   ];
   options.sort(function (x, y) { return y.score - x.score; });
-
   const best = options[0];
   const second = options[1];
-  const worst = options[2];
 
-  const qualifier = "It is highly probable";
-  const claim = "that adopting <strong>Option (" + best.id + "): " + best.name + "</strong> as the primary policy response to address: &laquo;" + problem + "&raquo; is the most appropriate course of action.";
+  let info = "";
+  if (evidenceData)    info += "Data & Statistics: " + evidenceData + ". ";
+  if (evidenceReports) info += "Reports & Studies: " + evidenceReports + ". ";
+  if (evExperts)       info += "Expert Opinions: " + evExperts + ".";
+  if (!info)           info = "Evidence collected during the Diagnosis and Evidence stages.";
 
-  let information = "";
-  if (evidenceData)    information += "&bull; Data & Statistics: " + evidenceData + "<br>";
-  if (evidenceReports) information += "&bull; Reports & Studies: " + evidenceReports + "<br>";
-  if (evExperts)       information += "&bull; Expert Opinions: " + evExperts;
-  if (!information)    information = "The evidence collected by the analyst during the Diagnosis and Evidence stages.";
+  document.getElementById("dunnClaim").value =
+    "Adopting Option (" + best.id + "): " + best.name + " as the primary policy response to address: " + problem + ".";
 
-  const warrant = "This option achieved the highest weighted score in the decision matrix (" + best.score.toFixed(2) + " out of 10), ahead of Option (" + second.id + ") at " + second.score.toFixed(2) + " and Option (" + worst.id + ") at " + worst.score.toFixed(2) + ", after criteria were weighted according to their relative importance to the decision-maker.";
+  document.getElementById("dunnInformation").value = info;
 
-  const backing = "The principle of Optimal Resource Allocation in policy analysis (William Dunn) holds that when resources are constrained, the alternative that maximizes net benefit relative to cost should be selected.";
+  document.getElementById("dunnWarrant").value =
+    "This option achieved the highest weighted score in the Decision Matrix (" + best.score.toFixed(2) + " / 10), ahead of Option (" + second.id + ") at " + second.score.toFixed(2) + ", after weighting the criteria according to their relative importance.";
 
-  const rebuttal = "Unless the relative weights of the criteria change according to political priorities, sufficient funding is not secured, or cooperation among implementing agencies fails.";
+  document.getElementById("dunnBacking").value =
+    "The principle of Optimal Resource Allocation in policy analysis (William Dunn) holds that when resources are constrained, the alternative that maximizes net benefit relative to cost should be selected.";
+
+  document.getElementById("dunnQualifier").value = "It is highly probable that";
+
+  document.getElementById("dunnRebuttal").value =
+    "Unless the relative weights of criteria change according to political priorities, sufficient funding is not secured, or cooperation among implementing agencies fails" + (stakeholders ? " — with particular sensitivity to the position of: " + stakeholders : "") + ".";
+
+  autoSave();
+  alert("Dunn components filled from the Decision Matrix. You can now edit any field before formulating the final recommendation.");
+}
+
+function formulateFinalRecommendation() {
+  const claim = document.getElementById("dunnClaim").value.trim();
+  const info  = document.getElementById("dunnInformation").value.trim();
+  const warrant = document.getElementById("dunnWarrant").value.trim();
+  const backing = document.getElementById("dunnBacking").value.trim();
+  const qualifier = document.getElementById("dunnQualifier").value;
+  const rebuttal = document.getElementById("dunnRebuttal").value.trim();
+
+  if (!claim || !info || !warrant) {
+    alert("Please fill at least the Claim, Information, and Warrant before formulating the recommendation.");
+    return;
+  }
+
+  let paragraph = "";
+  paragraph += qualifier + " " + claim;
+  paragraph += " This recommendation is grounded in the following evidence: " + info;
+  paragraph += " The logical justification is that " + warrant;
+  if (backing) {
+    paragraph += " This reasoning is anchored in established policy theory: " + backing;
+  }
+  if (rebuttal) {
+    paragraph += " However, this recommendation is subject to important qualifications: " + rebuttal;
+  }
 
   let html = "";
-  html += "<h3 style='color:#d6b85a; margin-top:0;'>Final Policy Recommendation - William Dunn Argument Model</h3>";
-  html += "<div class='box' style='border-left:4px solid #d6b85a;'><h3>1 - Claim (The Recommendation)</h3><p>" + qualifier + " " + claim + "</p></div>";
-  html += "<div class='box'><h3>2 - Information (Evidence / Grounds)</h3><p>" + information + "</p></div>";
-  html += "<div class='box'><h3>3 - Warrant (Logical Justification)</h3><p>" + warrant + "</p></div>";
-  html += "<div class='box'><h3>4 - Backing (Theoretical Support)</h3><p>" + backing + "</p></div>";
-  html += "<div class='box'><h3>5 - Qualifier (Degree of Certainty)</h3><p><strong>" + qualifier + "</strong></p></div>";
-  html += "<div class='box'><h3>6 - Rebuttal (Exceptions &amp; Warnings)</h3><p>" + rebuttal + "</p></div>";
-  html += "<div class='gate'><strong>Matrix Result Summary</strong><table style='width:100%; margin-top:10px; color:#eef4f8;'>";
-  html += "<tr><td>Option (" + best.id + "): " + best.name + "</td><td style='text-align:left;'><strong style='color:#d6b85a;'>" + best.score.toFixed(2) + "</strong></td></tr>";
-  html += "<tr><td>Option (" + second.id + "): " + second.name + "</td><td style='text-align:left;'>" + second.score.toFixed(2) + "</td></tr>";
-  html += "<tr><td>Option (" + worst.id + "): " + worst.name + "</td><td style='text-align:left;'>" + worst.score.toFixed(2) + "</td></tr>";
-  html += "</table></div>";
+  html += "<h3 style='color:#d6b85a; margin-top:0;'>Formulated Final Policy Recommendation</h3>";
+
+  html += "<div class='box' style='border-left: 4px solid #6bb85a; background: #0d2a17;'>";
+  html += "<h3>Statement of Recommendation</h3>";
+  html += "<p style='line-height: 1.9; color: #eef4f8; font-size: 15px;'>" + paragraph + "</p>";
+  html += "</div>";
+
+  html += "<div class='box'>";
+  html += "<h3>Argument Structure (William Dunn Model)</h3>";
+  html += "<table style='width:100%; margin-top:10px; color:#eef4f8; font-size: 14px;'>";
+  html += "<tr><td style='padding:8px; border:1px solid #29445b; width: 180px; color:#d6b85a;'><strong>Claim</strong></td><td style='padding:8px; border:1px solid #29445b;'>" + claim + "</td></tr>";
+  html += "<tr><td style='padding:8px; border:1px solid #29445b; color:#d6b85a;'><strong>Information</strong></td><td style='padding:8px; border:1px solid #29445b;'>" + info + "</td></tr>";
+  html += "<tr><td style='padding:8px; border:1px solid #29445b; color:#d6b85a;'><strong>Warrant</strong></td><td style='padding:8px; border:1px solid #29445b;'>" + warrant + "</td></tr>";
+  if (backing) {
+    html += "<tr><td style='padding:8px; border:1px solid #29445b; color:#d6b85a;'><strong>Backing</strong></td><td style='padding:8px; border:1px solid #29445b;'>" + backing + "</td></tr>";
+  }
+  html += "<tr><td style='padding:8px; border:1px solid #29445b; color:#d6b85a;'><strong>Qualifier</strong></td><td style='padding:8px; border:1px solid #29445b;'><em>" + qualifier + "</em></td></tr>";
+  if (rebuttal) {
+    html += "<tr><td style='padding:8px; border:1px solid #29445b; color:#d6b85a;'><strong>Rebuttal</strong></td><td style='padding:8px; border:1px solid #29445b;'>" + rebuttal + "</td></tr>";
+  }
+  html += "</table>";
+  html += "</div>";
+
+  if (lastMatrixResult) {
+    const optA = document.getElementById("optA").value.trim() || "Option A";
+    const optB = document.getElementById("optB").value.trim() || "Option B";
+    const optC = document.getElementById("optC").value.trim() || "Option C";
+    const options = [
+      { id: "A", name: optA, score: lastMatrixResult.A },
+      { id: "B", name: optB, score: lastMatrixResult.B },
+      { id: "C", name: optC, score: lastMatrixResult.C }
+    ];
+    options.sort(function (x, y) { return y.score - x.score; });
+
+    html += "<div class='gate'>";
+    html += "<strong>Supporting Decision Matrix</strong>";
+    html += "<table style='width:100%; margin-top:10px; color:#eef4f8;'>";
+    options.forEach(function(o, i) {
+      html += "<tr><td>Option (" + o.id + "): " + o.name + "</td><td style='text-align:left;'>" + (i === 0 ? "<strong style='color:#d6b85a;'>" + o.score.toFixed(2) + "</strong>" : o.score.toFixed(2)) + "</td></tr>";
+    });
+    html += "</table>";
+    html += "</div>";
+  }
+
   html += "<button onclick='window.print()'>Print / Export PDF</button>";
 
   document.getElementById("argumentResult").innerHTML = html;
   document.getElementById("argumentSection").classList.remove("hidden");
+  autoSave();
   window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -1287,6 +1386,7 @@ const FIELDS = [
   "aEffectiveness","aEfficiency","aEquity","aFeasibility","aPolitical","aCost",
   "bEffectiveness","bEfficiency","bEquity","bFeasibility","bPolitical","bCost",
   "cEffectiveness","cEfficiency","cEquity","cFeasibility","cPolitical","cCost",
+  "dunnClaim","dunnInformation","dunnWarrant","dunnBacking","dunnQualifier","dunnRebuttal",
   "stratShort","stratMid","stratLong","stratStakeholders","stratComm",
   "implSteps","implResponsibility","implKPIs","implReporting","implEval",
   "monFramework","monResponsible","monKPIs","monKPIsSecondary","monDataMethods","monDataSources","monFrequency","monWarnings","monCorrective",
