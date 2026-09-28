@@ -1,4 +1,4 @@
-const express = require("express");
+ذconst express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -1314,6 +1314,6 @@ window.addEventListener("load", function() {
   `);
 });
 
-app.listen(PORT, () => {
-  console.log("KHODAIR TOOLKIT running at http://localhost:" + PORT);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log("KHODAIR TOOLKIT running on port " + PORT);
 });
