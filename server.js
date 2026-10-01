@@ -112,6 +112,62 @@ body.rtl .save-status { right: auto; left: 80px; }
   main { padding: 15px; }
   .grid, .three { grid-template-columns: 1fr; }
   .header-left { flex-direction: column; align-items: flex-start; }
+}/* ============ Print Styles ============ */
+@media print {
+  header, aside, .header-actions, .rtl-toggle, .save-status, .login-overlay, .modal-overlay, button {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .layout {
+    display: block !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .card {
+    display: block !important;
+    page-break-after: always;
+    border: 1px solid #999 !important;
+    background: white !important;
+    color: black !important;
+    margin: 0 0 30px 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+  }
+  .card.hidden {
+    display: block !important;
+  }
+  .result {
+    display: block !important;
+  }
+  h2, h3, .gate strong, .summary-label, .summary-value, .logo-text {
+    color: #8b6f1f !important;
+  }
+  .box, .rec-card, .gate, .warning, .ok-msg {
+    border: 1px solid #999 !important;
+    background: #f9f9f9 !important;
+    color: black !important;
+  }
+  textarea, input, select {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #999 !important;
+  }
+  .tool-note, .summary-label, .summary-value {
+    color: #333 !important;
+  }
+  table {
+    border-collapse: collapse !important;
+  }
+  th, td {
+    border: 1px solid #999 !important;
+    color: black !important;
+    padding: 6px !important;
+  }
 }
 </style>
 </head>
@@ -1561,3 +1617,4 @@ window.addEventListener("load", function() {
 app.listen(PORT, '0.0.0.0', () => {
   console.log("KHODAIR TOOLKIT running on port " + PORT);
 });
+module.exports = app;
